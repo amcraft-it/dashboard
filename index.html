@@ -183,7 +183,7 @@
 
 <script>
 // ============ CONFIG ============
-var API_URL = 'https://script.google.com/macros/s/AKfycbxghDQGAfHrkX7wmAyo4_IoJBcGh5BI24vhrpDqDi7MmTFSelHE2KWBEEvq23_zjifO7g/exec';
+var API_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
 
 // ============ STATE ============
 var allData = {};
@@ -259,7 +259,7 @@ Chart.defaults.plugins.tooltip.backgroundColor='#0f172a';
 Chart.defaults.plugins.tooltip.padding=12;
 Chart.defaults.plugins.tooltip.cornerRadius=10;
 
-function dc(id){if(charts[id]){charts[id].destroy();delete charts[id]}}
+function dc(id){try{var x=Chart.getChart(id);if(x)x.destroy()}catch(e){}if(charts[id]){try{charts[id].destroy()}catch(e){}delete charts[id]}}
 
 function updateBadge(){document.getElementById('periodBadge').textContent=(currentQuarter==='ALL'?'Full Year ':currentQuarter+' ')+currentYear}
 
