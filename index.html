@@ -312,6 +312,11 @@ function renderFinance(){
     {label:'Booked '+currentYear,data:mv(currentYear,'finance','productionBooked',months),type:'bar',backgroundColor:C.blue.bg,borderRadius:6,barPercentage:.6},
     {label:'Recognized '+currentYear,data:mv(currentYear,'finance','productionRecognized',months),type:'line',borderColor:C.green.br,backgroundColor:C.green.lt,borderWidth:3,pointRadius:5,pointBackgroundColor:C.green.br,fill:true,tension:.3}
   ];
+  // Add Budget line for 2026
+  var budgetData=mv(currentYear,'finance','productionRecognizedBudget',months);
+  if(budgetData.some(function(v){return v!==0})){
+    ds.push({label:'Budget '+currentYear,data:budgetData,type:'line',borderColor:C.amber.br,borderWidth:2,borderDash:[8,4],pointRadius:4,pointBackgroundColor:C.amber.br,pointStyle:'triangle',fill:false,tension:.3});
+  }
   if(compareMode){
     ds.push({label:'Booked '+compareYear,data:mv(compareYear,'finance','productionBooked',months),type:'bar',backgroundColor:C.slate.bg,borderRadius:6,barPercentage:.6});
     ds.push({label:'Recognized '+compareYear,data:mv(compareYear,'finance','productionRecognized',months),type:'line',borderColor:C.rose.br,borderWidth:2,borderDash:[6,4],pointRadius:4,pointBackgroundColor:C.rose.br,fill:false,tension:.3});
