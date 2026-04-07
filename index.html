@@ -335,18 +335,18 @@ function renderFinance(){
   }
   makeChart('backlogChart','line',months,ds2,{plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+eur(c.raw)}}}},scales:{y:{beginAtZero:true,ticks:{callback:eurTick}}}});
 
-  // Cash chart
+  // Cash chart — stacked bar (Cash Flow + Burn Rate)
   var cf=mv(currentYear,'finance','cashFlow',months);
   var br=mv(currentYear,'finance','burnRate',months);
   var ds3=[
-    {label:'Cash Flow',data:cf,backgroundColor:C.cyan.bg,borderRadius:6,barPercentage:.5},
-    {label:'Burn Rate',data:br,backgroundColor:C.slate.bg,borderRadius:6,barPercentage:.5}
+    {label:'Cash Flow',data:cf,backgroundColor:C.cyan.bg,borderRadius:{topLeft:0,topRight:0,bottomLeft:6,bottomRight:6},barPercentage:.5,stack:'main'},
+    {label:'Burn Rate',data:br,backgroundColor:C.rose.bg,borderRadius:{topLeft:6,topRight:6,bottomLeft:0,bottomRight:0},barPercentage:.5,stack:'main'}
   ];
   if(compareMode){
-    ds3.push({label:'Cash Flow '+compareYear,data:mv(compareYear,'finance','cashFlow',months),backgroundColor:'rgba(6,182,212,.3)',borderRadius:6,barPercentage:.5});
-    ds3.push({label:'Burn '+compareYear,data:mv(compareYear,'finance','burnRate',months),backgroundColor:'rgba(203,213,225,.3)',borderRadius:6,barPercentage:.5});
+    ds3.push({label:'Cash Flow '+compareYear,data:mv(compareYear,'finance','cashFlow',months),backgroundColor:'rgba(6,182,212,.3)',borderRadius:{topLeft:0,topRight:0,bottomLeft:6,bottomRight:6},barPercentage:.5,stack:'compare'});
+    ds3.push({label:'Burn '+compareYear,data:mv(compareYear,'finance','burnRate',months),backgroundColor:'rgba(244,63,94,.3)',borderRadius:{topLeft:6,topRight:6,bottomLeft:0,bottomRight:0},barPercentage:.5,stack:'compare'});
   }
-  makeChart('cashChart','bar',months,ds3,{plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+eur(c.raw)}}}},scales:{y:{ticks:{callback:eurTick}}}});
+  makeChart('cashChart','bar',months,ds3,{plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+eur(c.raw)}}}},scales:{y:{stacked:true,ticks:{callback:eurTick}},x:{stacked:true}}});
 
   var rwl=last(currentYear,'finance','runway',currentQuarter);
   document.getElementById('cashSummary').innerHTML=
